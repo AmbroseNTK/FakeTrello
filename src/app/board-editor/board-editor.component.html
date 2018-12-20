@@ -1,0 +1,62 @@
+<ng-template #modalCreateBoard>
+  <div class="modal-header"><h3 class="text-info">Create new board</h3></div>
+  <div class="modal-content">
+    <div style="margin: 10px;">
+    <h5 style="margin-top:10px;">Board name</h5>
+    <input [(ngModel)]="boardName" placeholder="Enter board name" style="margin-top: 10px;"/>
+    <h5 style="margin-top:10px;">Board description</h5>
+    <input [(ngModel)]="boardDescription" placeholder="Enter board description" style="margin-top:10px;" />
+    <h5 style="margin-top:10px;">Select board color</h5>
+    <div class="d-flex flex-row" style="margin-top:10px;">
+      <button style="width:50px;height:50px;background: #ffffff" (click)="setColor('#ffffff')"></button>
+      <button style="width:50px;height:50px;background: #ff3c2f" (click)="setColor('#ff3c2f')"></button>
+      <button style="width:50px;height:50px;background: #ff8c14" (click)="setColor('#ff8c14')"></button>
+      <button style="width:50px;height:50px;background: #fff031" (click)="setColor('#fff031')"></button>
+      <button style="width:50px;height:50px;background: #07d71d" (click)="setColor('#07d71d')"></button>
+      <button style="width:50px;height:50px;background: deepskyblue" (click)="setColor('#00bfff')"></button>
+      <button style="width:50px;height:50px;background: #3d2fff" (click)="setColor('#3d2fff')"></button>
+      <button style="width:50px;height:50px;background: #d900cc" (click)="setColor('#d900cc')"></button>
+      <button style="width:50px;height:50px;background: #000000" (click)="setColor('#000000')"></button>
+    </div>
+    <button class="btn btn-primary" (click)="createBoard()" style="margin-top:10px;">Create</button>
+  </div>
+  </div>
+</ng-template>
+<ng-template #modalSettingBoard>
+  <div class="modal-header"><h3 class="text-info">Board setting</h3></div>
+  <div class="modal-content">
+    <div style="margin: 10px;">
+      <h5 style="margin-top:10px;">Board name</h5>
+      <input [(ngModel)]="currentBoard.name" placeholder="Enter board name" style="margin-top: 10px;"/>
+      <h5 style="margin-top:10px;">Board description</h5>
+      <input [(ngModel)]="currentBoard.description" placeholder="Enter board description" style="margin-top:10px;" />
+      <h5 style="margin-top:10px;">Select board color</h5>
+      <div class="d-flex flex-row" style="margin-top:10px;">
+        <button style="width:50px;height:50px;background: #ffffff" (click)="setColor('#ffffff')"></button>
+        <button style="width:50px;height:50px;background: #ff3c2f" (click)="setColor('#ff3c2f')"></button>
+        <button style="width:50px;height:50px;background: #ff8c14" (click)="setColor('#ff8c14')"></button>
+        <button style="width:50px;height:50px;background: #fff031" (click)="setColor('#fff031')"></button>
+        <button style="width:50px;height:50px;background: #07d71d" (click)="setColor('#07d71d')"></button>
+        <button style="width:50px;height:50px;background: deepskyblue" (click)="setColor('#00bfff')"></button>
+        <button style="width:50px;height:50px;background: #3d2fff" (click)="setColor('#3d2fff')"></button>
+        <button style="width:50px;height:50px;background: #d900cc" (click)="setColor('#d900cc')"></button>
+        <button style="width:50px;height:50px;background: #000000" (click)="setColor('#000000')"></button>
+      </div>
+      <button class="btn btn-primary" (click)="updateBoard(currentBoard.key,currentBoard.name,currentBoard.description,currentBoard.background)" style="margin-top:10px;">Update</button>
+      <button class="btn btn-danger" (click)="deleteBoard(currentBoard.key)" style="margin-left: 10px; margin-top: 10px;">Delete</button>
+    </div>
+  </div>
+</ng-template>
+<div *ngIf="boardList">
+  <p style="background: dodgerblue;color:#fff;font-size: 18pt; width: 100%; padding:5px;">Your board</p>
+  <div class="card" *ngFor="let board of boardList | async" style="margin-top: 10px;">
+    <h4 class="card-title" style="padding-left: 10px;">{{board.name}}</h4>
+    <div class="card-body" [ngStyle]="{'background':board.background}">
+      <h5>{{board.description}}</h5>
+      <button class="btn btn-outline-primary" (click)="openBoard(board.key)" style="margin-left: 10px;" routerLink="board/{{board.key}}">Open</button>
+      <button class="btn btn-outline-primary" (click)="openSetting(modalSettingBoard,board)" style="margin-left: 10px;">Setting</button>
+    </div>
+  </div>
+  <button class="btn btn-primary" (click)="create(modalCreateBoard)" style="margin-bottom: 10px; margin-top: 10px;">Create new board</button>
+  <p style="background:dodgerblue;color:#fff;font-size:18pt; width:100%; padding:5px;">Shared board</p>
+</div>

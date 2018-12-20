@@ -1,0 +1,85 @@
+<ng-template #modalContentUpdate>
+  <div class="modal-header">
+    <h4 class="modal-title">Team</h4>
+  </div>
+  <div class="modal-content">
+    <div style="margin: 10px;">
+      <p>Team name </p>
+      <input [(ngModel)]="currentTeam.name"/>
+      <p>Description</p>
+      <input [(ngModel)]="currentTeam.description"/>
+      <p>Add members</p>
+      <table style="width: 100%">
+        <tr>
+          <th>Email</th>
+          <th>Action</th>
+        </tr>
+        <tr *ngFor="let member of listMember | async">
+          <td>{{member.email}}</td>
+          <td><button class="btn btn-danger" (click)="deleteMember(member.key)">Remove</button></td>
+        </tr>
+        <tr>
+          <td><input #newEmail placeholder="Member email"></td>
+          <td><button class="btn btn-primary" (click)="inviteMember(newEmail.value)">Invite</button></td>
+        </tr>
+      </table>
+      <br/>
+      <button class="btn btn-primary" (click)="switchTeam(currentTeam)">Switch to</button>
+      <button class="btn btn-primary" (click)="updateTeam(currentTeam.key,currentTeam.name,currentTeam.description)" style="margin-left: 10px">Update</button>
+      <button class="btn btn-danger" (click)="deleteTeam(currentTeam.key)" style="margin-left: 10px;">Delete</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalContentInviteUpdate>
+  <div class="modal-header">
+    <h4 class="modal-title" id="modal-basic-title">Team</h4>
+  </div>
+  <div class="modal-content">
+    <div style="margin: 10px;">
+      <p>Team name </p>
+      <input [(ngModel)]="selection.team.name"/>
+      <p>Description</p>
+      <input [(ngModel)]="selection.team.description"/>
+      <br/>
+      <button class="btn btn-primary" (click)="switchInviteTeam(selection)" style="margin-top: 10px;">Switch to</button>
+      <button class="btn btn-primary" (click)="updateInviteTeam(selection)" style="margin-left: 10px;margin-top: 10px;">Update</button>
+      <button class="btn btn-danger" (click)="rejectTeam(selection)" style="margin-left: 10px;margin-top: 10px;">Reject</button>
+    </div>
+  </div>
+</ng-template>
+
+<ng-template #modalContentCreate>
+  <div class="modal-header">
+    <h4 class="modal-title">Create new team</h4>
+  </div>
+  <div class="modal-content">
+    <div style="margin: 10px;">
+      <p>Team name </p>
+      <input [(ngModel)]="teamName"/>
+      <p>Description</p>
+      <input [(ngModel)]="teamDescription"/>
+      <br/>
+      <button class="btn btn-primary" (click)="createTeam()" style="margin-top:10px;">Create</button>
+    </div>
+  </div>
+</ng-template>
+
+<div class="card flex-md-wrap" style="margin-top: 5px" >
+<h4 class="card-title text-info" style="margin-left:5px;">Team manager</h4>
+  <div class="card-body">
+  <table>
+    <tr *ngFor="let team of listTeam |async">
+      <button class="btn btn-outline-primary" (click)="open(modalContentUpdate,team)" style="margin: 5px; width: 100%">{{team.name}}</button>
+    </tr>
+  </table>
+
+    <table *ngFor="let teamGroup of listInviteTeam; let i = index">
+      <tr *ngFor="let team of teamGroup | async">
+        <button *ngIf="hasPermission(team.key)"  class="btn btn-outline-primary" (click)="openWithObject(modalContentInviteUpdate,{index:i,team:team})" style="margin: 5px; width: 100%">{{team.name}}</button>
+      </tr>
+    </table>
+
+  <button class="btn btn-primary" style="margin-top:5px;" (click)="open(modalContentCreate,null)">Create new team</button>
+  </div>
+</div>
