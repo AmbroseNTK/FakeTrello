@@ -106,6 +106,7 @@ export class TeamEditorComponent implements OnInit {
   public open(content, team) {
     this.modal = this.modalService.open(content);
     this.currentTeam = team;
+    this.switchTeam(team);
     console.log(this.currentTeam);
   }
 

@@ -17,11 +17,22 @@
   </div>
   <div class="modal-content">
     <div style="margin: 10px;">
-      <input type="text" placeholder="New list name" #listName />
+      List name: <input type="text" placeholder="New list name" #listName />
+      <br/>
+      Move after:
+      <select (change)="moveList($event.target)">
+        <option value="0">Select</option>
+        <option *ngFor="let list of listList | async; let i = index" value="{{i}}">{{list.name}}</option>
+      </select>
+      <br/>
+      Move before:
+      <select (change)="moveList($event.target,false)">
+        <option value="0">Select</option>
+        <option *ngFor="let list of listList | async; let i = index" value="{{i}}">{{list.name}}</option>
+      </select>
       <br/>
       <button class="btn btn-primary" (click)="updateList(listName.value)" style="margin-top: 10px;">Update</button>
-      <br/>
-      <button class="btn btn-danger" (click)="deleteList()" style="margin-top: 10px;">Delete</button>
+      <button class="btn btn-danger" (click)="deleteList()" style="margin-top: 10px; margin-left: 10px;">Delete</button>
     </div>
   </div>
 </ng-template>
@@ -50,6 +61,23 @@
       <input type="text" placeholder="New task name" #taskName [ngModel]="selection.task.name" />
       <br/>
       <input type="text" placeholder="New task description" #taskDescription [ngModel]="selection.task.description" style="margin-top: 10px;"/>
+      <br/>
+      Move to
+      <select (change)="moveTask($event.target)">
+        <option>Select</option>
+        <ng-container *ngFor="let list of listList | async; let i = index">
+          <option *ngIf="i!=selection.index" value="{{i}}">{{list.name}}</option>
+        </ng-container>
+
+      </select>
+      <br/>
+      Copy to
+      <select (change)="copyTask($event.target)">
+        <option>Select</option>
+        <ng-container *ngFor="let list of listList | async; let i = index">
+          <option value="{{i}}"> {{list.name}}</option>
+        </ng-container>
+      </select>
       <br/>
       <button class="btn btn-primary" (click)="updateTask(taskName.value,taskDescription.value)" style="margin-top: 10px;">Update</button>
       <button class="btn btn-danger" (click)="deleteTask()" style="margin-top: 10px; margin-left: 10px;">Delete</button>
