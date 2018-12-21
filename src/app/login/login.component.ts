@@ -18,14 +18,14 @@ export class LoginComponent implements OnInit {
   }
 
   public login() {
-
+/*
     if (this.userName == '') {
       this.userName = 'admin@gmail.com';
       this.password = '000000';
     } else {
       this.userName = 'a@gmail.com';
       this.password = '000000';
-    }
+    }*/
     this.auth.auth.signInWithEmailAndPassword(this.userName, this.password).then(value => {
       console.log(value);
       this.router.navigateByUrl('main');

@@ -39,6 +39,9 @@ export class BoardComponent implements OnInit {
     this.boardID = this.route.snapshot.paramMap.get('boardID');
 
     this.load();
+    this.listListRef.snapshotChanges().subscribe(value => {
+      this.load();
+    });
   }
 
   load() {
@@ -68,6 +71,7 @@ export class BoardComponent implements OnInit {
       });
     });
   }
+
 
   createList(name: string) {
     this.listListRef.push({name: name,  order: this.listOrder.length });
